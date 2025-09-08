@@ -16,6 +16,9 @@ export default {
           danger: '#EF4444',
         },
       },
+      fontFamily: {
+        sans: ['Poppins', 'sans-serif'],
+      },
     },
   },
   plugins: [],
