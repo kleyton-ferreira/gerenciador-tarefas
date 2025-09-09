@@ -1,9 +1,11 @@
 import React from 'react'
 
+import Sidebar from './components/Sidebar/Sidebar'
+
 function App() {
   return (
     <div>
-      <h1>Wellcome FSC!</h1>
+      <Sidebar />
     </div>
   )
 }
