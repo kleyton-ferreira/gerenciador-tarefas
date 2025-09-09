@@ -1,0 +1,22 @@
+import React from 'react'
+import { tv } from 'tailwind-variants'
+
+const Button = ({ children, variant }) => {
+  const button = tv({
+    base: 'flex items-center gap-2 rounded-md px-3 py-1 text-[16px] transition hover:bg-opacity-70',
+    variants: {
+      color: {
+        primary: 'bg-brand-primary text-brand-white',
+        secondary: 'bg-transparent text-brand-dark-gray hover:text-opacity-70',
+      },
+    },
+  })
+
+  return (
+    <>
+      <button className={button({ color: variant })}> {children} </button>
+    </>
+  )
+}
+
+export default Button
