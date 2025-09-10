@@ -19,6 +19,25 @@ const Task = () => {
   const afterTasks = tasks.filter((items) => items.time === 'afternoon')
   const eveningTasks = tasks.filter((items) => items.time === 'evening')
 
+  const handleTaskCheckboxClick = (taskId) => {
+    const newTask = tasks.map((item) => {
+      if (item.id !== taskId) {
+        return item
+      }
+      if (item.status === 'not-started') {
+        return { ...item, status: 'in-progress' }
+      }
+      if (item.status === 'in-progress') {
+        return { ...item, status: 'done' }
+      }
+      if (item.status === 'done') {
+        return { ...item, status: 'not-started' }
+      }
+      return item
+    })
+    setTasks(newTask)
+  }
+
   return (
     <div className="w-full px-8 py-16">
       <div className="flex items-center justify-between">
@@ -43,19 +62,31 @@ const Task = () => {
         <div className="space-y-3">
           <TaskSeparator title="Manhã" icon={<SunIcon />} />
           {morningTasks.map((task) => (
-            <TaskItem key={task.id} taskItens={task} />
+            <TaskItem
+              key={task.id}
+              taskItens={task}
+              handTaskleClick={handleTaskCheckboxClick}
+            />
           ))}
         </div>
         <div className="my-8 space-y-3">
           <TaskSeparator title="Tarde" icon={<CloudIcon />} />
           {afterTasks.map((task) => (
-            <TaskItem key={task.id} taskItens={task} />
+            <TaskItem
+              key={task.id}
+              taskItens={task}
+              handTaskleClick={handleTaskCheckboxClick}
+            />
           ))}
         </div>
         <div className="space-y-3">
           <TaskSeparator title="Noite" icon={<MoonIcon />} />
           {eveningTasks.map((task) => (
-            <TaskItem key={task.id} taskItens={task} />
+            <TaskItem
+              key={task.id}
+              taskItens={task}
+              handTaskleClick={handleTaskCheckboxClick}
+            />
           ))}
         </div>
       </div>
