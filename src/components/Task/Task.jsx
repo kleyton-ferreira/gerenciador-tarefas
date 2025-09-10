@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { toast } from 'sonner'
 
 import ITENS from '../../../constants/ITENS'
 import {
@@ -25,12 +26,15 @@ const Task = () => {
         return item
       }
       if (item.status === 'not-started') {
+        toast.success('Tarefa iniciada com sucesso!')
         return { ...item, status: 'in-progress' }
       }
       if (item.status === 'in-progress') {
+        toast.success('Tarefa concluida com sucesso!')
         return { ...item, status: 'done' }
       }
       if (item.status === 'done') {
+        toast.success('Tarefa reiniciada com sucesso!')
         return { ...item, status: 'not-started' }
       }
       return item
@@ -41,6 +45,7 @@ const Task = () => {
   const handleDeleteTasks = (taskId) => {
     const deleteTask = tasks.filter((del) => del.id !== taskId)
     setTasks(deleteTask)
+    toast.success('Tarefa deletada com sucesso!')
   }
 
   return (
