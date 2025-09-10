@@ -1,8 +1,14 @@
 import React from 'react'
 
-import { CheckedIcon, DetailsIcon, LoaderIcon } from '../../assets/icons'
+import {
+  CheckedIcon,
+  DetailsIcon,
+  LoaderIcon,
+  Trashcon,
+} from '../../assets/icons'
+import Button from '../Button/Button'
 
-const TaskItem = ({ taskItens, handTaskleClick }) => {
+const TaskItem = ({ taskItens, handTaskleClick, handleDeletItens }) => {
   const getStatusClass = () => {
     if (taskItens.status === 'done') {
       return 'bg-brand-primary  text-brand-primary'
@@ -39,9 +45,15 @@ const TaskItem = ({ taskItens, handTaskleClick }) => {
         </label>
         <p>{taskItens.title}</p>
       </div>
-      <a href="#">
-        <DetailsIcon className="text-brand-text-gray transition-all hover:opacity-80" />
-      </a>
+
+      <div className="flex items-center">
+        <Button variant="ghost" onClick={() => handleDeletItens(taskItens.id)}>
+          <Trashcon />
+        </Button>
+        <a href="#">
+          <DetailsIcon className="text-brand-text-gray transition-all hover:opacity-70" />
+        </a>
+      </div>
     </div>
   )
 }
