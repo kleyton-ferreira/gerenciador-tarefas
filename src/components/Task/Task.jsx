@@ -9,12 +9,14 @@ import {
   SunIcon,
   Trashcon,
 } from '../../assets/icons'
+import AddTaskDialog from '../AddTaskDialog/AddTaskDialog'
 import Button from '../Button/Button'
 import TaskItem from '../TaskItem/TaskItem'
 import TaskSeparator from '../TaskSeparator/TaskSeparator'
 
 const Task = () => {
   const [tasks, setTasks] = useState(ITENS)
+  const [addDialogModal, setAddDialogModal] = useState(false)
 
   const morningTasks = tasks.filter((items) => items.time === 'morning')
   const afterTasks = tasks.filter((items) => items.time === 'afternoon')
@@ -63,7 +65,8 @@ const Task = () => {
           <Button variant="secondary">
             Limpar tarefas <Trashcon />
           </Button>
-          <Button variant="primary">
+          <Button variant="primary" onClick={() => setAddDialogModal(true)}>
+            <AddTaskDialog isOpen={addDialogModal} />
             <AddIcon /> Nova tarefa
           </Button>
         </div>
