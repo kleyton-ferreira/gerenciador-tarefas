@@ -1,11 +1,47 @@
 import React from 'react'
 import { createPortal } from 'react-dom'
 
-const AddTaskDialog = ({ isOpen }) => {
+import Button from '../Button/Button'
+import Input from '../Input/Input'
+
+const AddTaskDialog = ({ isOpen, handleClose }) => {
   if (!isOpen) return true
   return createPortal(
-    <div className="fixed bottom-0 left-0 top-0 flex h-screen w-screen items-center justify-center">
-      <h1 className="text-[50px] text-brand-dark-blue">Add Task Dialog!</h1>
+    <div className="fixed bottom-0 left-0 top-0 z-40 flex h-screen w-screen items-center justify-center backdrop-blur">
+      <div className="relative w-80 rounded-[12px] bg-brand-white p-5 text-center shadow">
+        <h2 className="text-[20px] font-semibold text-brand-dark-blue">
+          Nova Tarefa
+        </h2>
+        <p className="mb-6 text-sm font-light text-brand-text-gray">
+          Insira as informações abaixo
+        </p>
+        <div className="space-y-6">
+          <Input id="title" label="Título" placeholder="Título da tarefa" />
+          <Input id="time" label="Horário" placeholder="Selecione" />
+          <Input
+            id="description"
+            label="Descrição"
+            placeholder="Descreva a tarefa"
+          />
+        </div>
+        <div className="mt-6 flex items-center justify-center gap-3">
+          <Button
+            variant="tertiary"
+            size="larger"
+            className="flex items-center justify-center"
+            onClick={handleClose}
+          >
+            Cancelar
+          </Button>
+          <Button
+            size="small"
+            variant="primary"
+            className="flex items-center justify-center"
+          >
+            Salvar
+          </Button>
+        </div>
+      </div>
     </div>,
     document.body
   )

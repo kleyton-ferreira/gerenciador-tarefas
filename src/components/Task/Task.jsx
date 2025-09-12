@@ -22,6 +22,7 @@ const Task = () => {
   const afterTasks = tasks.filter((items) => items.time === 'afternoon')
   const eveningTasks = tasks.filter((items) => items.time === 'evening')
 
+  // FUNÇAO DE MUDAR OS CHACKBOX
   const handleTaskCheckboxClick = (taskId) => {
     const newTask = tasks.map((item) => {
       if (item.id !== taskId) {
@@ -44,6 +45,7 @@ const Task = () => {
     setTasks(newTask)
   }
 
+  // FUNÇAO DE DELETAR AS TAREFAS
   const handleDeleteTasks = (taskId) => {
     const deleteTask = tasks.filter((del) => del.id !== taskId)
     setTasks(deleteTask)
@@ -69,6 +71,11 @@ const Task = () => {
             <AddTaskDialog isOpen={addDialogModal} />
             <AddIcon /> Nova tarefa
           </Button>
+
+          <AddTaskDialog
+            isOpen={addDialogModal}
+            handleClose={() => setAddDialogModal(false)}
+          />
         </div>
       </div>
       <div className="mt-6 rounded-[10px] bg-brand-white p-6">
