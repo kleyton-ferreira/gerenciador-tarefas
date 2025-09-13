@@ -5,7 +5,7 @@ import SidebarButton from '../SidebarButton/SidebarButton'
 
 const Sidebar = () => {
   return (
-    <div className="h-screen w-72 bg-brand-white">
+    <div className="h-screen w-80 bg-brand-white">
       <div className="space-y-4 px-8 py-6">
         <h1 className="text-xl font-semibold text-brand-primary">
           Task Manager
