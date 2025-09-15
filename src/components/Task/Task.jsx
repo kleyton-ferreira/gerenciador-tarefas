@@ -52,6 +52,12 @@ const Task = () => {
     toast.success('Tarefa deletada com sucesso!')
   }
 
+  // FUNÇAO DE CRIAR TAREFAS
+  const handleAddTaskSubmit = (taskSubmit) => {
+    setTasks([...tasks, taskSubmit])
+    toast.success('Tarefa adicionada com sucesso!')
+  }
+
   return (
     <div className="w-full px-8 py-16">
       <div className="flex items-center justify-between">
@@ -75,6 +81,7 @@ const Task = () => {
           <AddTaskDialog
             isOpen={addDialogModal}
             handleClose={() => setAddDialogModal(false)}
+            handleSubmit={handleAddTaskSubmit}
           />
         </div>
       </div>
