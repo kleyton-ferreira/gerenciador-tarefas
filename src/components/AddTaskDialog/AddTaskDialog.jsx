@@ -1,6 +1,6 @@
 import '../AddTaskDialog/AddTaskDialog.css'
 
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { CSSTransition } from 'react-transition-group'
 import { v4 } from 'uuid'
@@ -11,7 +11,7 @@ import TimeSelect from '../TimeSelect/TimeSelect'
 
 const AddTaskDialog = ({ isOpen, handleClose, handleSubmit }) => {
   const [title, setTitle] = useState()
-  const [time, setTime] = useState()
+  const [time, setTime] = useState('morning')
   const [description, setDescription] = useState()
 
   const handleSaveClick = () => {
@@ -25,6 +25,14 @@ const AddTaskDialog = ({ isOpen, handleClose, handleSubmit }) => {
     // ESSE HANDLECLOSE..  ELE E A FUNÇAO QUE MUDA O ESTADO DE ABERTO E FECHADO ELE TA COM O VALOR (FALSE) QUANDO CLICA FICA FECHADO
     handleClose()
   }
+
+  useEffect(() => {
+    if (!isOpen) {
+      setTitle('')
+      setTime('')
+      setDescription('')
+    }
+  }, [isOpen])
 
   const nodeRef = useRef()
   return (
