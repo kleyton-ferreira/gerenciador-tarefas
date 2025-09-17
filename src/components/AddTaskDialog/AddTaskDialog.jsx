@@ -13,11 +13,39 @@ const AddTaskDialog = ({ isOpen, handleClose, handleSubmit }) => {
   const [title, setTitle] = useState()
   const [time, setTime] = useState('morning')
   const [description, setDescription] = useState()
+  const [error, setError] = useState([])
 
   const handleSaveClick = () => {
-    if (!title.trim() || !description.trim() || !description.trim()) {
-      return alert('Preencha todos os campos')
+    const newError = []
+
+    if (!title.trim()) {
+      newError.push({
+        inputName: 'title',
+        message: 'O título e obrigatório',
+      })
     }
+
+    if (!time.trim()) {
+      newError.push({
+        inputName: 'time',
+        message: 'O Hórario e obrigatório',
+      })
+    }
+
+    if (!description.trim()) {
+      newError.push({
+        inputName: 'description',
+        message: 'A descrição e obrigatório',
+      })
+    }
+
+    console.log(newError)
+    if (newError.length > 0) {
+      setError(newError)
+      return
+    }
+
+    // AQUI E A FUNÇAO DE CRIAR A TAREFA QUE E É PASSADA COMO PROPS
     handleSubmit({
       id: v4(),
       title,
@@ -25,10 +53,11 @@ const AddTaskDialog = ({ isOpen, handleClose, handleSubmit }) => {
       description,
       status: 'not-started',
     })
-    // ESSE HANDLECLOSE..  ELE E A FUNÇAO QUE MUDA O ESTADO DE ABERTO E FECHADO ELE TA COM O VALOR (FALSE) QUANDO CLICA FICA FECHADO
     handleClose()
+    // ESSE HANDLECLOSE..  ELE E A FUNÇAO QUE MUDA O ESTADO DE ABERTO E FECHADO ELE TA COM O VALOR (FALSE) QUANDO CLICA FICA FECHADO
   }
 
+  // ESSE HOOK FAZ COM QUE EU LIMPE OS INPUTS QUANDO CRIAR AS TAREFAS
   useEffect(() => {
     if (!isOpen) {
       setTitle('')
@@ -38,6 +67,13 @@ const AddTaskDialog = ({ isOpen, handleClose, handleSubmit }) => {
   }, [isOpen])
 
   const nodeRef = useRef()
+
+  const titleError = error.find((errors) => errors.inputName === 'title')
+  const timeError = error.find((errors) => errors.inputName === 'time')
+  const descriptionError = error.find(
+    (errors) => errors.inputName === 'description'
+  )
+
   return (
     <CSSTransition
       nodeRef={nodeRef}
@@ -59,18 +95,20 @@ const AddTaskDialog = ({ isOpen, handleClose, handleSubmit }) => {
               <p className="mb-6 text-sm font-light text-brand-text-gray">
                 Insira as informações abaixo
               </p>
-              <div className="space-y-6">
+              <div className="space-y-4">
                 <Input
                   id="title"
                   label="Título"
                   placeholder="Título da tarefa"
                   value={title}
                   onChange={(event) => setTitle(event.target.value)}
+                  errorMessage={titleError?.message}
                 />
 
                 <TimeSelect
                   value={time}
                   onChange={(event) => setTime(event.target.value)}
+                  errorMessage={timeError}
                 />
 
                 <Input
@@ -79,6 +117,7 @@ const AddTaskDialog = ({ isOpen, handleClose, handleSubmit }) => {
                   placeholder="Descreva a tarefa"
                   value={description}
                   onChange={(event) => setDescription(event.target.value)}
+                  errorMessage={descriptionError?.message}
                 />
               </div>
               <div className="mt-6 flex items-center justify-center gap-3">
