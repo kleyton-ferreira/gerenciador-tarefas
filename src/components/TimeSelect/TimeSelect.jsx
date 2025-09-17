@@ -2,6 +2,7 @@ import React from 'react'
 import { forwardRef } from 'react'
 
 import InputLabel from '../InputLabel/InputLabel'
+import InputMessageError from '../InputMessageError/InputMessageError'
 
 const TimeSelect = forwardRef((props, ref) => {
   return (
@@ -14,7 +15,7 @@ const TimeSelect = forwardRef((props, ref) => {
         {...props}
       >
         {props.errorMessage && (
-          <p className="pt-2 text-left text-red-500">{props.errorMessage}</p>
+          <InputMessageError> {props.errorMessage} </InputMessageError>
         )}
         <option value="morning">Manhã</option>
         <option value="afternoon">Tarde</option>
