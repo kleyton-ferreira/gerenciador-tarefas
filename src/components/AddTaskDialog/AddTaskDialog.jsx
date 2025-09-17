@@ -10,13 +10,23 @@ import Input from '../Input/Input'
 import TimeSelect from '../TimeSelect/TimeSelect'
 
 const AddTaskDialog = ({ isOpen, handleClose, handleSubmit }) => {
-  const [title, setTitle] = useState()
-  const [time, setTime] = useState('morning')
-  const [description, setDescription] = useState()
   const [error, setError] = useState([])
 
+  const nodeRef = useRef()
+
+  // ESSA E UMA ABORDAGEM DE NAO USAR OS STATE PRA ATUALIZAR OS INPUTS! USA O  ...  forwardRef! PRA PEGAR O ATRIBUTO RAIS DO HTML
+  const titleRef = useRef()
+  const descriptionRef = useRef()
+  const timeRef = useRef()
+
   const handleSaveClick = () => {
+    console.log(titleRef.current.value)
     const newError = []
+
+    // E AQUI E SO PRA SIMPLIFICAR A ESCRITA NAS CONDICIONAIS  if (!title.trim())
+    const title = titleRef.current.value
+    const description = titleRef.current.value
+    const time = timeRef.current.value
 
     if (!title.trim()) {
       newError.push({
@@ -38,10 +48,11 @@ const AddTaskDialog = ({ isOpen, handleClose, handleSubmit }) => {
         message: 'A descrição e obrigatório',
       })
     }
+    // AQUI A LIMPA OS INPUTS QUANDO DIGITAR NA CAIXA DE INPUT
+    setError(newError)
 
     console.log(newError)
     if (newError.length > 0) {
-      setError(newError)
       return
     }
 
@@ -56,17 +67,6 @@ const AddTaskDialog = ({ isOpen, handleClose, handleSubmit }) => {
     handleClose()
     // ESSE HANDLECLOSE..  ELE E A FUNÇAO QUE MUDA O ESTADO DE ABERTO E FECHADO ELE TA COM O VALOR (FALSE) QUANDO CLICA FICA FECHADO
   }
-
-  // ESSE HOOK FAZ COM QUE EU LIMPE OS INPUTS QUANDO CRIAR AS TAREFAS
-  useEffect(() => {
-    if (!isOpen) {
-      setTitle('')
-      setTime('morning')
-      setDescription('')
-    }
-  }, [isOpen])
-
-  const nodeRef = useRef()
 
   const titleError = error.find((errors) => errors.inputName === 'title')
   const timeError = error.find((errors) => errors.inputName === 'time')
@@ -100,24 +100,18 @@ const AddTaskDialog = ({ isOpen, handleClose, handleSubmit }) => {
                   id="title"
                   label="Título"
                   placeholder="Título da tarefa"
-                  value={title}
-                  onChange={(event) => setTitle(event.target.value)}
                   errorMessage={titleError?.message}
+                  ref={titleRef}
                 />
 
-                <TimeSelect
-                  value={time}
-                  onChange={(event) => setTime(event.target.value)}
-                  errorMessage={timeError}
-                />
+                <TimeSelect errorMessage={timeError?.message} ref={timeRef} />
 
                 <Input
                   id="description"
                   label="Descrição"
                   placeholder="Descreva a tarefa"
-                  value={description}
-                  onChange={(event) => setDescription(event.target.value)}
                   errorMessage={descriptionError?.message}
+                  ref={descriptionRef}
                 />
               </div>
               <div className="mt-6 flex items-center justify-center gap-3">
