@@ -1,7 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 
-import ITENS from '../../../constants/ITENS'
 import {
   AddIcon,
   CloudIcon,
@@ -15,8 +14,19 @@ import TaskItem from '../TaskItem/TaskItem'
 import TaskSeparator from '../TaskSeparator/TaskSeparator'
 
 const Task = () => {
-  const [tasks, setTasks] = useState(ITENS)
+  const [tasks, setTasks] = useState([])
   const [addDialogModal, setAddDialogModal] = useState(false)
+
+  useEffect(() => {
+    const fetchTasks = async () => {
+      const response = await fetch('http://localhost:3000/ITENS', {
+        method: 'GET',
+      })
+      const data = await response.json()
+      setTasks(data)
+    }
+    fetchTasks()
+  }, [])
 
   const morningTasks = tasks.filter((items) => items.time === 'morning')
   const afterTasks = tasks.filter((items) => items.time === 'afternoon')

@@ -12,6 +12,7 @@ import TimeSelect from '../TimeSelect/TimeSelect'
 const AddTaskDialog = ({ isOpen, handleClose, handleSubmit }) => {
   const [error, setError] = useState([])
 
+  // ESSE ( useRef ) AQUI E PRA PEGAR O ELEMENTO HTML PARA A TRANSIÇAO  ...  createPortal!
   const nodeRef = useRef()
 
   // ESSA E UMA ABORDAGEM DE NAO USAR OS STATE PRA ATUALIZAR OS INPUTS! USA O  ...  forwardRef! PRA PEGAR O ATRIBUTO RAIS DO HTML
@@ -20,7 +21,6 @@ const AddTaskDialog = ({ isOpen, handleClose, handleSubmit }) => {
   const timeRef = useRef()
 
   const handleSaveClick = () => {
-    console.log(titleRef.current.value)
     const newError = []
 
     // E AQUI E SO PRA SIMPLIFICAR A ESCRITA NAS CONDICIONAIS  if (!title.trim())
