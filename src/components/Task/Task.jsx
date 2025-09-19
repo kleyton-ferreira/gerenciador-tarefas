@@ -55,17 +55,27 @@ const Task = () => {
     setTasks(newTask)
   }
 
+  // FUNÇAO DE CRIAR TAREFAS
+  const handleAddTaskSubmit = async (taskSubmit) => {
+    const response = await fetch('http://localhost:3000/ITENS', {
+      method: 'POST',
+      body: JSON.stringify(taskSubmit),
+    })
+
+    if (!response.ok) {
+      return toast.error(
+        'Erro ao adicionar tarefa. por favor, tente novamente.'
+      )
+    }
+    setTasks([...tasks, taskSubmit])
+    toast.success('Tarefa adicionada com sucesso!')
+  }
+
   // FUNÇAO DE DELETAR AS TAREFAS
   const handleDeleteTasks = (taskId) => {
     const deleteTask = tasks.filter((del) => del.id !== taskId)
     setTasks(deleteTask)
     toast.success('Tarefa deletada com sucesso!')
-  }
-
-  // FUNÇAO DE CRIAR TAREFAS
-  const handleAddTaskSubmit = (taskSubmit) => {
-    setTasks([...tasks, taskSubmit])
-    toast.success('Tarefa adicionada com sucesso!')
   }
 
   return (
