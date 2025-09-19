@@ -72,7 +72,13 @@ const Task = () => {
   }
 
   // FUNÇAO DE DELETAR AS TAREFAS
-  const handleDeleteTasks = (taskId) => {
+  const handleDeleteTasks = async (taskId) => {
+    const response = await fetch(`http://localhost:3000/ITENS/${taskId}`, {
+      method: 'DELETE',
+    })
+    if (!response.ok) {
+      return toast.error('Erro ao deletar. Por favor, tente novamente.')
+    }
     const deleteTask = tasks.filter((del) => del.id !== taskId)
     setTasks(deleteTask)
     toast.success('Tarefa deletada com sucesso!')

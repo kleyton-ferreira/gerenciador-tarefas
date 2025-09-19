@@ -1,13 +1,6 @@
 {
   "ITENS": [
     {
-      "id": "1",
-      "title": "Estudar FSC",
-      "description": "Estudar para a prova FSC",
-      "time": "morning",
-      "status": "done"
-    },
-    {
       "id": "2",
       "title": "Ler Livros",
       "description": "Ler o livre de matemática",
@@ -15,66 +8,10 @@
       "status": "done"
     },
     {
-      "id": "3",
-      "title": "Treinar",
-      "description": "Treinar para competição de natação",
-      "time": "afternoon",
-      "status": "in-progress"
-    },
-    {
-      "id": "4",
-      "title": "Fazer compras",
-      "description": "Comprar igredientes para o jantar",
-      "time": "afternoon",
-      "status": "in-progress"
-    },
-    {
-      "id": "5",
-      "title": "Descansar",
-      "description": "Assistir um filme com a família",
-      "time": "evening",
-      "status": "not-started"
-    },
-    {
-      "id": "6",
-      "title": "Meditar",
-      "description": "Meditar por 10 minutos",
-      "time": "evening",
-      "status": "not-started"
-    },
-    {
-      "id": "c5377b88-fbab-4035-8519-38af00881408",
-      "title": "Teste",
+      "id": "b4a56893-4714-4f31-8981-116509ff422c",
+      "title": "React",
       "time": "morning",
-      "description": "Teste",
-      "status": "not-started"
-    },
-    {
-      "id": "19ffe5a5-dfed-489f-b6c4-238543b8e729",
-      "title": "React ()",
-      "time": "morning",
-      "description": "React ()",
-      "status": "not-started"
-    },
-    {
-      "id": "682a3f88-c15e-4699-bc40-9470dc57ee16",
-      "title": "criar task ( TASK NOVA )",
-      "time": "afternoon",
-      "description": "criar task ( TASK NOVA )",
-      "status": "not-started"
-    },
-    {
-      "id": "58e1ad11-9379-451b-b81a-bab30b787e6d",
-      "title": "Teste de criação da ( Task )",
-      "time": "afternoon",
-      "description": "Teste de criação da ( Task )",
-      "status": "not-started"
-    },
-    {
-      "id": "bc2e7367-ea45-4940-b951-979786f87ac8",
-      "title": "Teste 123344",
-      "time": "afternoon",
-      "description": "Teste 123344",
+      "description": "React",
       "status": "not-started"
     }
   ]
