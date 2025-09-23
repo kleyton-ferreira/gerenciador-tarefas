@@ -72,13 +72,7 @@ const Task = () => {
   }
 
   // FUNÇAO DE DELETAR AS TAREFAS
-  const handleDeleteTasks = async (taskId) => {
-    const response = await fetch(`http://localhost:3000/ITENS/${taskId}`, {
-      method: 'DELETE',
-    })
-    if (!response.ok) {
-      return toast.error('Erro ao deletar. Por favor, tente novamente.')
-    }
+  const onDeleteTaskSucesess = async (taskId) => {
     const deleteTask = tasks.filter((del) => del.id !== taskId)
     setTasks(deleteTask)
     toast.success('Tarefa deletada com sucesso!')
@@ -119,7 +113,7 @@ const Task = () => {
               key={task.id}
               taskItens={task}
               handTaskleClick={handleTaskCheckboxClick}
-              handleDeletItens={handleDeleteTasks}
+              onDeleteSucess={onDeleteTaskSucesess}
             />
           ))}
         </div>
@@ -130,7 +124,7 @@ const Task = () => {
               key={task.id}
               taskItens={task}
               handTaskleClick={handleTaskCheckboxClick}
-              handleDeletItens={handleDeleteTasks}
+              onDeleteSucess={onDeleteTaskSucesess}
             />
           ))}
         </div>
@@ -141,7 +135,7 @@ const Task = () => {
               key={task.id}
               taskItens={task}
               handTaskleClick={handleTaskCheckboxClick}
-              handleDeletItens={handleDeleteTasks}
+              onDeleteSucess={onDeleteTaskSucesess}
             />
           ))}
         </div>

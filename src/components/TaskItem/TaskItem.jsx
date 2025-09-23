@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { toast } from 'sonner'
 
 import {
   CheckedIcon,
@@ -8,7 +9,26 @@ import {
 } from '../../assets/icons'
 import Button from '../Button/Button'
 
-const TaskItem = ({ taskItens, handTaskleClick, handleDeletItens }) => {
+const TaskItem = ({ taskItens, handTaskleClick, onDeleteSucess }) => {
+  const [deleteTaskLoading, setDeleteTaskLoading] = useState(false)
+
+  const handleOnDeleteClick = async () => {
+    setDeleteTaskLoading(true)
+    const response = await fetch(
+      `http://localhost:3000/ITENS/${taskItens.id}`,
+      {
+        method: 'DELETE',
+      }
+    )
+
+    if (!response.ok) {
+      setDeleteTaskLoading(false)
+      toast.error('Erro ao deletar. Por favor, tente novamente.')
+    }
+    onDeleteSucess(taskItens.id)
+    setDeleteTaskLoading(false)
+  }
+
   const getStatusClass = () => {
     if (taskItens.status === 'done') {
       return 'bg-brand-primary  text-brand-primary'
@@ -47,8 +67,16 @@ const TaskItem = ({ taskItens, handTaskleClick, handleDeletItens }) => {
       </div>
 
       <div className="flex items-center">
-        <Button variant="ghost" onClick={() => handleDeletItens(taskItens.id)}>
-          <Trashcon />
+        <Button
+          variant="ghost"
+          onClick={handleOnDeleteClick}
+          disabled={deleteTaskLoading}
+        >
+          {deleteTaskLoading ? (
+            <LoaderIcon className="animate-spin" />
+          ) : (
+            <Trashcon />
+          )}
         </Button>
         <a href="#">
           <DetailsIcon className="text-brand-text-gray transition-all hover:opacity-70" />
