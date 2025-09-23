@@ -15,7 +15,7 @@ const AddTaskDialog = ({ isOpen, handleClose, handleSubmit }) => {
   // ESSE ( useRef ) AQUI E PRA PEGAR O ELEMENTO HTML PARA A TRANSIÇAO  ...  createPortal!
   const nodeRef = useRef()
 
-  // ESSA E UMA ABORDAGEM DE NAO USAR OS STATE PRA ATUALIZAR OS INPUTS! USA O  ...  forwardRef! PRA PEGAR O ATRIBUTO RAIS DO HTML
+  // ESSA E UMA ABORDAGEM DE NAO USAR OS STATE PRA ATUALIZAR OS INPUTS! USA O  ...  forwardRef! PRA PEGAR O ATRIBUTO RAIZ DO HTML ( input )
   const titleRef = useRef()
   const descriptionRef = useRef()
   const timeRef = useRef()
@@ -24,6 +24,8 @@ const AddTaskDialog = ({ isOpen, handleClose, handleSubmit }) => {
     const newError = []
 
     // E AQUI E SO PRA SIMPLIFICAR A ESCRITA NAS CONDICIONAIS  if (!title.trim())
+    // MAIS AQUI NESSE  ( .current.value / valor atual ) EU TENHO ACESSO TANTO AO ATRIBUTO ( HTML ) QUANTO AO VALOR DO INPUT DIGITADO
+    // POR ISSO EU NAO PRECISO USAR O EVENTO ( onChange ).
     const title = titleRef.current.value
     const description = titleRef.current.value
     const time = timeRef.current.value
@@ -48,7 +50,7 @@ const AddTaskDialog = ({ isOpen, handleClose, handleSubmit }) => {
         message: 'A descrição e obrigatório',
       })
     }
-    // AQUI A LIMPA OS INPUTS QUANDO DIGITAR NA CAIXA DE INPUT
+    // AQUI LIMPA OS INPUTS QUANDO DIGITAR NA CAIXA DE INPUT
     setError(newError)
 
     console.log(newError)
