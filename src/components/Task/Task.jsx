@@ -56,23 +56,13 @@ const Task = () => {
   }
 
   // FUNÇAO DE CRIAR TAREFAS
-  const handleAddTaskSubmit = async (taskSubmit) => {
-    const response = await fetch('http://localhost:3000/ITENS', {
-      method: 'POST',
-      body: JSON.stringify(taskSubmit),
-    })
-
-    if (!response.ok) {
-      return toast.error(
-        'Erro ao adicionar tarefa. por favor, tente novamente.'
-      )
-    }
+  const handleAddTaskSubmit = (taskSubmit) => {
     setTasks([...tasks, taskSubmit])
     toast.success('Tarefa adicionada com sucesso!')
   }
 
   // FUNÇAO DE DELETAR AS TAREFAS
-  const onDeleteTaskSucesess = async (taskId) => {
+  const onDeleteTaskSucesess = (taskId) => {
     const deleteTask = tasks.filter((del) => del.id !== taskId)
     setTasks(deleteTask)
     toast.success('Tarefa deletada com sucesso!')
@@ -101,7 +91,7 @@ const Task = () => {
           <AddTaskDialog
             isOpen={addDialogModal}
             handleClose={() => setAddDialogModal(false)}
-            handleSubmit={handleAddTaskSubmit}
+            onSubmitSucess={handleAddTaskSubmit}
           />
         </div>
       </div>

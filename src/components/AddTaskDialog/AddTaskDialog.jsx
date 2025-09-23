@@ -1,16 +1,19 @@
 import '../AddTaskDialog/AddTaskDialog.css'
 
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { CSSTransition } from 'react-transition-group'
+import { toast } from 'sonner'
 import { v4 } from 'uuid'
 
+import { LoaderIcon } from '../../assets/icons/index'
 import Button from '../Button/Button'
 import Input from '../Input/Input'
 import TimeSelect from '../TimeSelect/TimeSelect'
 
-const AddTaskDialog = ({ isOpen, handleClose, handleSubmit }) => {
+const AddTaskDialog = ({ isOpen, handleClose, onSubmitSucess }) => {
   const [error, setError] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
 
   // ESSE ( useRef ) AQUI E PRA PEGAR O ELEMENTO HTML PARA A TRANSIÇAO  ...  createPortal!
   const nodeRef = useRef()
@@ -20,7 +23,7 @@ const AddTaskDialog = ({ isOpen, handleClose, handleSubmit }) => {
   const descriptionRef = useRef()
   const timeRef = useRef()
 
-  const handleSaveClick = () => {
+  const handleSaveClick = async () => {
     const newError = []
 
     // E AQUI E SO PRA SIMPLIFICAR A ESCRITA NAS CONDICIONAIS  if (!title.trim())
@@ -58,14 +61,29 @@ const AddTaskDialog = ({ isOpen, handleClose, handleSubmit }) => {
       return
     }
 
-    // AQUI E A FUNÇAO DE CRIAR A TAREFA QUE E É PASSADA COMO PROPS
-    handleSubmit({
+    const taskTitle = {
       id: v4(),
-      title,
       time,
+      title,
       description,
       status: 'not-started',
+    }
+    setIsLoading(true)
+    const response = await fetch('http://localhost:3000/ITENS', {
+      method: 'POST',
+      body: JSON.stringify(taskTitle),
     })
+
+    if (!response.ok) {
+      setIsLoading(false)
+      return toast.error(
+        'Erro ao adicionar tarefa. por favor, tente novamente.'
+      )
+    }
+
+    // AQUI E A FUNÇAO DE CRIAR A TAREFA QUE E É PASSADA COMO PROPS
+    onSubmitSucess(taskTitle)
+    setIsLoading(false)
     handleClose()
     // ESSE HANDLECLOSE..  ELE E A FUNÇAO QUE MUDA O ESTADO DE ABERTO E FECHADO ELE TA COM O VALOR (FALSE) QUANDO CLICA FICA FECHADO
   }
@@ -130,7 +148,9 @@ const AddTaskDialog = ({ isOpen, handleClose, handleSubmit }) => {
                   variant="primary"
                   className="flex items-center justify-center"
                   onClick={handleSaveClick}
+                  disabled={isLoading}
                 >
+                  {isLoading && <LoaderIcon className="animate-spin" />}
                   Salvar
                 </Button>
               </div>
