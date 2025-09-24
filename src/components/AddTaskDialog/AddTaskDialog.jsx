@@ -30,7 +30,7 @@ const AddTaskDialog = ({ isOpen, handleClose, onSubmitSucess }) => {
     // MAIS AQUI NESSE  ( .current.value / valor atual ) EU TENHO ACESSO TANTO AO ATRIBUTO ( HTML ) QUANTO AO VALOR DO INPUT DIGITADO
     // POR ISSO EU NAO PRECISO USAR O EVENTO ( onChange ).
     const title = titleRef.current.value
-    const description = titleRef.current.value
+    const description = descriptionRef.current.value
     const time = timeRef.current.value
 
     if (!title.trim()) {

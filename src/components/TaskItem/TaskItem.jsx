@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { toast } from 'sonner'
 
 import {
@@ -78,9 +79,9 @@ const TaskItem = ({ taskItens, handTaskleClick, onDeleteSucess }) => {
             <Trashcon />
           )}
         </Button>
-        <a href="#">
+        <Link to={`/task/${taskItens.id}`}>
           <DetailsIcon className="text-brand-text-gray transition-all hover:opacity-70" />
-        </a>
+        </Link>
       </div>
     </div>
   )
