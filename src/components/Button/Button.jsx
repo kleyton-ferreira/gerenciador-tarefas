@@ -11,6 +11,8 @@ const Button = ({ children, variant, className, size, ...rest }) => {
         tertiary:
           'bg-brand-light-gray text-brand-dark-blue hover:text-opacity-70',
         ghost: 'cursor-pointer text-brand-text-gray hover:text-opacity-70',
+        danger: 'bg-brand-danger px-4 py-2 text-brand-white',
+        details: 'bg-brand-white font-semibold text-brand-dark-blue',
       },
       size: {
         small: 'w-full px-3 py-2 text-[14px]',
