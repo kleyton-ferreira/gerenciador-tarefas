@@ -56,7 +56,6 @@ const AddTaskDialog = ({ isOpen, handleClose, onSubmitSucess }) => {
     // AQUI LIMPA OS INPUTS QUANDO DIGITAR NA CAIXA DE INPUT
     setError(newError)
 
-    console.log(newError)
     if (newError.length > 0) {
       return
     }
@@ -81,7 +80,7 @@ const AddTaskDialog = ({ isOpen, handleClose, onSubmitSucess }) => {
       )
     }
 
-    // AQUI E A FUNÇAO DE CRIAR A TAREFA QUE E É PASSADA COMO PROPS
+    // AQUI E A FUNÇAO DE CRIAR A TAREFA QUE E É PASSADA COMO PROPS  :  ESSE onSubmitSucess(taskTitle)  ELE E O SUCESSO DA FUNÇAO CRIADA
     onSubmitSucess(taskTitle)
     setIsLoading(false)
     handleClose()

@@ -1,31 +1,10 @@
 {
   "ITENS": [
     {
-      "id": "b2fc3892-ed31-4620-9798-02d5469108c2",
-      "time": "morning",
-      "title": "Teste React",
-      "description": "Javascript",
-      "status": "not-started"
-    },
-    {
-      "id": "15363358-4762-49b6-a7ff-1f06a17b31f4",
-      "time": "morning",
-      "title": "Estudar sempre ( development! )",
-      "description": "Muitas linguagens de programação",
-      "status": "not-started"
-    },
-    {
-      "id": "28206265-1737-43ae-9f2b-56ae2c242aa2",
-      "time": "evening",
-      "title": "Teste",
-      "description": "Javascript",
-      "status": "not-started"
-    },
-    {
-      "id": "e8367c99-51b7-4efc-afad-94a103860cb7",
+      "id": "d210b018-4ad9-451b-aaf3-48caf886c246",
       "time": "afternoon",
-      "title": "Teste 33",
-      "description": "React",
+      "title": "Teste ( 1 )",
+      "description": "Javascript",
       "status": "not-started"
     }
   ]
