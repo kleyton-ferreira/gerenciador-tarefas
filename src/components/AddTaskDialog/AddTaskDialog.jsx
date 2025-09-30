@@ -2,6 +2,7 @@ import '../AddTaskDialog/AddTaskDialog.css'
 
 import React, { useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
+import { useForm } from 'react-hook-form'
 import { CSSTransition } from 'react-transition-group'
 import { toast } from 'sonner'
 import { v4 } from 'uuid'
@@ -12,86 +13,47 @@ import Input from '../Input/Input'
 import TimeSelect from '../TimeSelect/TimeSelect'
 
 const AddTaskDialog = ({ isOpen, handleClose, onSubmitSucess }) => {
-  const [error, setError] = useState([])
-  const [isLoading, setIsLoading] = useState(false)
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm()
 
-  // ESSE ( useRef ) AQUI E PRA PEGAR O ELEMENTO HTML PARA A TRANSIÇAO  ...  createPortal!
   const nodeRef = useRef()
 
-  // ESSA E UMA ABORDAGEM DE NAO USAR OS STATE PRA ATUALIZAR OS INPUTS! USA O  ...  forwardRef! PRA PEGAR O ATRIBUTO RAIZ DO HTML ( input )
-  const titleRef = useRef()
-  const descriptionRef = useRef()
-  const timeRef = useRef()
-
-  const handleSaveClick = async () => {
-    const newError = []
-
-    // E AQUI E SO PRA SIMPLIFICAR A ESCRITA NAS CONDICIONAIS  if (!title.trim())
-    // MAIS AQUI NESSE  ( .current.value / valor atual ) EU TENHO ACESSO TANTO AO ATRIBUTO ( HTML ) QUANTO AO VALOR DO INPUT DIGITADO
-    // POR ISSO EU NAO PRECISO USAR O EVENTO ( onChange ).
-    const title = titleRef.current.value
-    const description = descriptionRef.current.value
-    const time = timeRef.current.value
-
-    if (!title.trim()) {
-      newError.push({
-        inputName: 'title',
-        message: 'O título e obrigatório',
-      })
-    }
-
-    if (!time.trim()) {
-      newError.push({
-        inputName: 'time',
-        message: 'O Hórario e obrigatório',
-      })
-    }
-
-    if (!description.trim()) {
-      newError.push({
-        inputName: 'description',
-        message: 'A descrição e obrigatório',
-      })
-    }
-    // AQUI LIMPA OS INPUTS QUANDO DIGITAR NA CAIXA DE INPUT
-    setError(newError)
-
-    if (newError.length > 0) {
-      return
-    }
-
+  const handleSaveClick = async (data) => {
     const taskTitle = {
       id: v4(),
-      time,
-      title,
-      description,
+      time: data.time.trim(),
+      title: data.title.trim(),
+      description: data.description.trim(),
       status: 'not-started',
     }
-    setIsLoading(true)
+
     const response = await fetch('http://localhost:3000/ITENS', {
       method: 'POST',
       body: JSON.stringify(taskTitle),
     })
 
     if (!response.ok) {
-      setIsLoading(false)
       return toast.error(
         'Erro ao adicionar tarefa. por favor, tente novamente.'
       )
     }
-
-    // AQUI E A FUNÇAO DE CRIAR A TAREFA QUE E É PASSADA COMO PROPS  :  ESSE onSubmitSucess(taskTitle)  ELE E O SUCESSO DA FUNÇAO CRIADA
-    onSubmitSucess(taskTitle)
-    setIsLoading(false)
     handleClose()
-    // ESSE HANDLECLOSE..  ELE E A FUNÇAO QUE MUDA O ESTADO DE ABERTO E FECHADO ELE TA COM O VALOR (FALSE) QUANDO CLICA FICA FECHADO
+    onSubmitSucess(taskTitle)
+    reset()
   }
 
-  const titleError = error.find((errors) => errors.inputName === 'title')
-  const timeError = error.find((errors) => errors.inputName === 'time')
-  const descriptionError = error.find(
-    (errors) => errors.inputName === 'description'
-  )
+  const handleCancelClick = () => {
+    reset({
+      title: '',
+      time: 'morning',
+      description: '',
+    })
+    handleClose()
+  }
 
   return (
     <CSSTransition
@@ -114,45 +76,73 @@ const AddTaskDialog = ({ isOpen, handleClose, onSubmitSucess }) => {
               <p className="mb-6 text-sm font-light text-brand-text-gray">
                 Insira as informações abaixo
               </p>
-              <div className="space-y-4">
-                <Input
-                  id="title"
-                  label="Título"
-                  placeholder="Título da tarefa"
-                  errorMessage={titleError?.message}
-                  ref={titleRef}
-                />
 
-                <TimeSelect errorMessage={timeError?.message} ref={timeRef} />
+              <form onSubmit={handleSubmit(handleSaveClick)}>
+                <div className="space-y-4">
+                  <Input
+                    id="title"
+                    label="Título"
+                    placeholder="Título da tarefa"
+                    errorMessage={errors?.title?.message}
+                    {...register('title', {
+                      required: 'O título é obrigatório',
+                      validate: (value) => {
+                        if (!value.trim()) {
+                          return 'O título não pode ser vazio.'
+                        }
+                      },
+                    })}
+                  />
 
-                <Input
-                  id="description"
-                  label="Descrição"
-                  placeholder="Descreva a tarefa"
-                  errorMessage={descriptionError?.message}
-                  ref={descriptionRef}
-                />
-              </div>
-              <div className="mt-6 flex items-center justify-center gap-3">
-                <Button
-                  variant="tertiary"
-                  size="larger"
-                  className="flex items-center justify-center"
-                  onClick={handleClose}
-                >
-                  Cancelar
-                </Button>
-                <Button
-                  size="small"
-                  variant="primary"
-                  className="flex items-center justify-center"
-                  onClick={handleSaveClick}
-                  disabled={isLoading}
-                >
-                  {isLoading && <LoaderIcon className="animate-spin" />}
-                  Salvar
-                </Button>
-              </div>
+                  <TimeSelect
+                    id="time"
+                    errorMessage={errors?.time?.message}
+                    {...register('time', {
+                      required: 'O horário é obrigatório',
+                      validate: (value) => {
+                        if (!value.trim()) {
+                          return 'O horário não pode ser vazio'
+                        }
+                      },
+                    })}
+                  />
+
+                  <Input
+                    id="description"
+                    label="Descrição"
+                    placeholder="Descreva a tarefa"
+                    errorMessage={errors?.description?.message}
+                    {...register('description', {
+                      required: 'A descrição é obrigatório',
+                      validate: (value) => {
+                        if (!value.trim()) {
+                          return 'A descrição não pode ser vazia'
+                        }
+                      },
+                    })}
+                  />
+                </div>
+                <div className="mt-6 flex items-center justify-center gap-3">
+                  <Button
+                    variant="tertiary"
+                    size="larger"
+                    className="flex items-center justify-center"
+                    type="button"
+                    onClick={handleCancelClick}
+                  >
+                    Cancelar
+                  </Button>
+                  <Button
+                    size="small"
+                    variant="primary"
+                    className="flex items-center justify-center"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting && <LoaderIcon className="animate-spin" />}
+                    Salvar
+                  </Button>
+                </div>
+              </form>
             </div>
           </div>,
           document.body

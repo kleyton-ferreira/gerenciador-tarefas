@@ -109,6 +109,7 @@ const TaskDetailsPage = () => {
                 id="title"
                 label="Nome"
                 defaultValue={task?.title}
+                errorMessage={errors?.title?.message}
                 {...register('title', {
                   required: 'O título é obrigatório',
                   validate: (value) => {
@@ -117,13 +118,12 @@ const TaskDetailsPage = () => {
                     }
                   },
                 })}
-                errorMessage={errors?.title?.message}
               />
             </div>
             <div>
               <TimeSelect
                 id="time"
-                label=""
+                errorMessage={errors?.time?.message}
                 defaultValue={task?.time}
                 {...register('time', {
                   required: 'O horário é obrigatório',
@@ -133,7 +133,6 @@ const TaskDetailsPage = () => {
                     }
                   },
                 })}
-                errorMessage={errors?.time?.message}
               />
             </div>
             <div>
@@ -141,6 +140,7 @@ const TaskDetailsPage = () => {
                 id="description"
                 label="Descrição"
                 defaultValue={task?.description}
+                errorMessage={errors?.description?.message}
                 {...register('description', {
                   required: 'A descrição é obrigatório',
                   validate: (value) => {
@@ -149,7 +149,6 @@ const TaskDetailsPage = () => {
                     }
                   },
                 })}
-                errorMessage={errors?.description?.message}
               />
             </div>
           </div>
