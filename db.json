@@ -1,11 +1,3 @@
 {
-  "ITENS": [
-    {
-      "id": "d210b018-4ad9-451b-aaf3-48caf886c246",
-      "time": "afternoon",
-      "title": "Teste ( 1 )",
-      "description": "Javascript",
-      "status": "not-started"
-    }
-  ]
+  "ITENS": []
 }
