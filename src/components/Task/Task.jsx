@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+import React, { useState } from 'react'
+import { Await } from 'react-router-dom'
 import { toast } from 'sonner'
 
 import {
@@ -14,23 +16,22 @@ import TaskItem from '../TaskItem/TaskItem'
 import TaskSeparator from '../TaskSeparator/TaskSeparator'
 
 const Task = () => {
-  const [tasks, setTasks] = useState([])
-  const [addDialogModal, setAddDialogModal] = useState(false)
+  const queryClient = useQueryClient()
 
-  useEffect(() => {
-    const fetchTasks = async () => {
+  const { data: tasks } = useQuery({
+    queryKey: 'ITENS',
+    queryFn: async () => {
       const response = await fetch('http://localhost:3000/ITENS', {
         method: 'GET',
       })
-      const data = await response.json()
-      setTasks(data)
-    }
-    fetchTasks()
-  }, [])
+      const taskItems = await response.json()
+      return taskItems
+    },
+  })
 
-  const morningTasks = tasks.filter((items) => items.time === 'morning')
-  const afterTasks = tasks.filter((items) => items.time === 'afternoon')
-  const eveningTasks = tasks.filter((items) => items.time === 'evening')
+  const morningTasks = tasks?.filter((items) => items.time === 'morning')
+  const afterTasks = tasks?.filter((items) => items.time === 'afternoon')
+  const eveningTasks = tasks?.filter((items) => items.time === 'evening')
 
   // FUNÇAO DE MUDAR OS CHACKBOX
   const handleTaskCheckboxClick = (taskId) => {
@@ -52,21 +53,26 @@ const Task = () => {
       }
       return item
     })
-    setTasks(newTask)
+    queryClient.setQueryData('ITENS', newTask)
   }
 
   // FUNÇAO DE CRIAR TAREFAS
   const handleAddTaskSubmit = (taskSubmit) => {
-    setTasks([...tasks, taskSubmit])
+    queryClient.setQueriesData('ITENS', (currentTask) => {
+      return [...currentTask, taskSubmit]
+    })
     toast.success('Tarefa adicionada com sucesso!')
   }
 
   // FUNÇAO DE DELETAR AS TAREFAS
   const onDeleteTaskSucesess = (taskId) => {
-    const deleteTask = tasks.filter((del) => del.id !== taskId)
-    setTasks(deleteTask)
+    queryClient.setQueriesData('ITENS', (currentTask) => {
+      return currentTask.filter((taskDel) => taskDel.id !== taskId)
+    })
     toast.success('Tarefa deletada com sucesso!')
   }
+
+  const [addDialogModal, setAddDialogModal] = useState(false)
 
   return (
     <div className="w-full px-8 py-16">
@@ -98,12 +104,12 @@ const Task = () => {
       <div className="mt-6 rounded-[10px] bg-brand-white p-6">
         <div className="space-y-3">
           <TaskSeparator title="Manhã" icon={<SunIcon />} />
-          {morningTasks.length === 0 && (
+          {morningTasks?.length === 0 && (
             <p className="text- text-brand-text-gray">
               Nenhuma tarefa cadastrada para o período da manhã.
             </p>
           )}
-          {morningTasks.map((task) => (
+          {morningTasks?.map((task) => (
             <TaskItem
               key={task.id}
               taskItens={task}
@@ -114,13 +120,12 @@ const Task = () => {
         </div>
         <div className="my-8 space-y-3">
           <TaskSeparator title="Tarde" icon={<CloudIcon />} />
-          {afterTasks.length === 0 && (
+          {afterTasks?.length === 0 && (
             <p className="text- text-brand-text-gray">
               Nenhuma tarefa cadastrada para o período da tarde.
             </p>
           )}
-
-          {afterTasks.map((task) => (
+          {afterTasks?.map((task) => (
             <TaskItem
               key={task.id}
               taskItens={task}
@@ -131,12 +136,12 @@ const Task = () => {
         </div>
         <div className="space-y-3">
           <TaskSeparator title="Noite" icon={<MoonIcon />} />
-          {eveningTasks.length === 0 && (
+          {eveningTasks?.length === 0 && (
             <p className="text- text-brand-text-gray">
               Nenhuma tarefa cadastrada para o período da noite.
             </p>
           )}
-          {eveningTasks.map((task) => (
+          {eveningTasks?.map((task) => (
             <TaskItem
               key={task.id}
               taskItens={task}

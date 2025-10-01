@@ -136,6 +136,7 @@ const AddTaskDialog = ({ isOpen, handleClose, onSubmitSucess }) => {
                     size="small"
                     variant="primary"
                     className="flex items-center justify-center"
+                    type="submit"
                     disabled={isSubmitting}
                   >
                     {isSubmitting && <LoaderIcon className="animate-spin" />}

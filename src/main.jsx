@@ -1,5 +1,6 @@
 import './index.css'
 
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
@@ -19,15 +20,19 @@ const router = createBrowserRouter([
   },
 ])
 
+const queryClient = new QueryClient()
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <Toaster
-      toastOptions={{
-        style: {
-          color: '#00ADB5',
-        },
-      }}
-    />
-    <RouterProvider router={router} />
+    <QueryClientProvider client={queryClient}>
+      <Toaster
+        toastOptions={{
+          style: {
+            color: '#00ADB5',
+          },
+        }}
+      />
+      <RouterProvider router={router} />
+    </QueryClientProvider>
   </React.StrictMode>
 )

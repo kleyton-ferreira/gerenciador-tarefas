@@ -52,6 +52,7 @@ const TaskDetailsPage = () => {
 
     const newTask = await response.json()
     setTask(newTask)
+    toast.success('Tarefa atualizada com sucesso!')
 
     if (!response.ok) {
       return toast.error('Ocorreu um erro ao atualizar a tarefa!')
