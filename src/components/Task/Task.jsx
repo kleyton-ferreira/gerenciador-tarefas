@@ -1,6 +1,5 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import React, { useState } from 'react'
-import { Await } from 'react-router-dom'
+import { useState } from 'react'
 import { toast } from 'sonner'
 
 import {
@@ -16,6 +15,7 @@ import TaskItem from '../TaskItem/TaskItem'
 import TaskSeparator from '../TaskSeparator/TaskSeparator'
 
 const Task = () => {
+  const [addDialogModal, setAddDialogModal] = useState(false)
   const queryClient = useQueryClient()
 
   const { data: tasks } = useQuery({
@@ -57,22 +57,6 @@ const Task = () => {
   }
 
   // FUNÇAO DE CRIAR TAREFAS
-  const handleAddTaskSubmit = (taskSubmit) => {
-    queryClient.setQueriesData('ITENS', (currentTask) => {
-      return [...currentTask, taskSubmit]
-    })
-    toast.success('Tarefa adicionada com sucesso!')
-  }
-
-  // FUNÇAO DE DELETAR AS TAREFAS
-  const onDeleteTaskSucesess = (taskId) => {
-    queryClient.setQueriesData('ITENS', (currentTask) => {
-      return currentTask.filter((taskDel) => taskDel.id !== taskId)
-    })
-    toast.success('Tarefa deletada com sucesso!')
-  }
-
-  const [addDialogModal, setAddDialogModal] = useState(false)
 
   return (
     <div className="w-full px-8 py-16">
@@ -97,7 +81,6 @@ const Task = () => {
           <AddTaskDialog
             isOpen={addDialogModal}
             handleClose={() => setAddDialogModal(false)}
-            onSubmitSucess={handleAddTaskSubmit}
           />
         </div>
       </div>
@@ -114,7 +97,6 @@ const Task = () => {
               key={task.id}
               taskItens={task}
               handTaskleClick={handleTaskCheckboxClick}
-              onDeleteSucess={onDeleteTaskSucesess}
             />
           ))}
         </div>
@@ -130,7 +112,6 @@ const Task = () => {
               key={task.id}
               taskItens={task}
               handTaskleClick={handleTaskCheckboxClick}
-              onDeleteSucess={onDeleteTaskSucesess}
             />
           ))}
         </div>
@@ -146,7 +127,6 @@ const Task = () => {
               key={task.id}
               taskItens={task}
               handTaskleClick={handleTaskCheckboxClick}
-              onDeleteSucess={onDeleteTaskSucesess}
             />
           ))}
         </div>

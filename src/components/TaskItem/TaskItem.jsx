@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
 import { toast } from 'sonner'
 
@@ -10,24 +10,34 @@ import {
 } from '../../assets/icons'
 import Button from '../Button/Button'
 
-const TaskItem = ({ taskItens, handTaskleClick, onDeleteSucess }) => {
-  const [deleteTaskLoading, setDeleteTaskLoading] = useState(false)
+const TaskItem = ({ taskItens, handTaskleClick }) => {
+  const queryClient = useQueryClient()
+
+  const { mutate, isPending } = useMutation({
+    mutationKey: ['deleteTask', taskItens.id],
+    mutationFn: async () => {
+      const response = await fetch(
+        `http://localhost:3000/ITENS/${taskItens.id}`,
+        {
+          method: 'DELETE',
+        }
+      )
+      return response.json()
+    },
+  })
 
   const handleOnDeleteClick = async () => {
-    setDeleteTaskLoading(true)
-    const response = await fetch(
-      `http://localhost:3000/ITENS/${taskItens.id}`,
-      {
-        method: 'DELETE',
-      }
-    )
-
-    if (!response.ok) {
-      setDeleteTaskLoading(false)
-      toast.error('Erro ao deletar. Por favor, tente novamente.')
-    }
-    onDeleteSucess(taskItens.id)
-    setDeleteTaskLoading(false)
+    mutate(undefined, {
+      onSuccess: () => {
+        queryClient.setQueriesData('ITENS', (currentTask) => {
+          return currentTask.filter((taskDel) => taskDel.id !== taskItens.id)
+        })
+        toast.success('Tarefa deletada com sucesso!')
+      },
+      onError: () => {
+        toast.error('Erro ao deletar tarefa. Por favor, tente novamente.')
+      },
+    })
   }
 
   const getStatusClass = () => {
@@ -71,13 +81,9 @@ const TaskItem = ({ taskItens, handTaskleClick, onDeleteSucess }) => {
         <Button
           variant="ghost"
           onClick={handleOnDeleteClick}
-          disabled={deleteTaskLoading}
+          disabled={isPending}
         >
-          {deleteTaskLoading ? (
-            <LoaderIcon className="animate-spin" />
-          ) : (
-            <Trashcon />
-          )}
+          {isPending ? <LoaderIcon className="animate-spin" /> : <Trashcon />}
         </Button>
         <Link to={`/task/${taskItens.id}`}>
           <DetailsIcon className="text-brand-text-gray transition-all hover:opacity-70" />

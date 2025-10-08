@@ -1,6 +1,7 @@
 import '../AddTaskDialog/AddTaskDialog.css'
 
-import React, { useRef, useState } from 'react'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useRef } from 'react'
 import { createPortal } from 'react-dom'
 import { useForm } from 'react-hook-form'
 import { CSSTransition } from 'react-transition-group'
@@ -12,7 +13,10 @@ import Button from '../Button/Button'
 import Input from '../Input/Input'
 import TimeSelect from '../TimeSelect/TimeSelect'
 
-const AddTaskDialog = ({ isOpen, handleClose, onSubmitSucess }) => {
+const AddTaskDialog = ({ isOpen, handleClose }) => {
+  const queryClient = useQueryClient()
+  const nodeRef = useRef()
+
   const {
     register,
     handleSubmit,
@@ -20,7 +24,19 @@ const AddTaskDialog = ({ isOpen, handleClose, onSubmitSucess }) => {
     formState: { errors, isSubmitting },
   } = useForm()
 
-  const nodeRef = useRef()
+  const { mutate } = useMutation({
+    mutationKey: 'addTask',
+    mutationFn: async (taskTitle) => {
+      const response = await fetch('http://localhost:3000/ITENS', {
+        method: 'POST',
+        body: JSON.stringify(taskTitle),
+      })
+      if (!response.ok) {
+        throw new Error('Erro ao adicionar tarefa.')
+      }
+      return response.json()
+    },
+  })
 
   const handleSaveClick = async (data) => {
     const taskTitle = {
@@ -31,19 +47,22 @@ const AddTaskDialog = ({ isOpen, handleClose, onSubmitSucess }) => {
       status: 'not-started',
     }
 
-    const response = await fetch('http://localhost:3000/ITENS', {
-      method: 'POST',
-      body: JSON.stringify(taskTitle),
+    mutate(taskTitle, {
+      onSuccess: () => {
+        queryClient.setQueriesData('ITENS', (currentTask) => {
+          return [...currentTask, taskTitle]
+        })
+        reset({
+          title: '',
+          time: 'morning',
+          description: '',
+        })
+        toast.success('Tarefa adicionada com sucesso!')
+        handleClose()
+      },
+      onError: () =>
+        toast.error('Erro ao adicionar tarefa. por favor, tente novamente.'),
     })
-
-    if (!response.ok) {
-      return toast.error(
-        'Erro ao adicionar tarefa. por favor, tente novamente.'
-      )
-    }
-    handleClose()
-    onSubmitSucess(taskTitle)
-    reset()
   }
 
   const handleCancelClick = () => {
