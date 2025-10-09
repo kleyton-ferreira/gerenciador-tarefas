@@ -8,30 +8,15 @@ import {
   LoaderIcon,
   Trashcon,
 } from '../../assets/icons'
+import { useDeleteTasks } from '../../hooks/data/use-delete-tasks'
 import Button from '../Button/Button'
 
 const TaskItem = ({ taskItens, handTaskleClick }) => {
-  const queryClient = useQueryClient()
-
-  const { mutate, isPending } = useMutation({
-    mutationKey: ['deleteTask', taskItens.id],
-    mutationFn: async () => {
-      const response = await fetch(
-        `http://localhost:3000/ITENS/${taskItens.id}`,
-        {
-          method: 'DELETE',
-        }
-      )
-      return response.json()
-    },
-  })
+  const { mutate, isPending } = useDeleteTasks(taskItens.id)
 
   const handleOnDeleteClick = async () => {
     mutate(undefined, {
       onSuccess: () => {
-        queryClient.setQueriesData('ITENS', (currentTask) => {
-          return currentTask.filter((taskDel) => taskDel.id !== taskItens.id)
-        })
         toast.success('Tarefa deletada com sucesso!')
       },
       onError: () => {

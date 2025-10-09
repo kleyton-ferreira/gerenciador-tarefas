@@ -9,12 +9,12 @@ import { toast } from 'sonner'
 import { v4 } from 'uuid'
 
 import { LoaderIcon } from '../../assets/icons/index'
+import { useAddTasks } from '../../hooks/data/use-add-tasks'
 import Button from '../Button/Button'
 import Input from '../Input/Input'
 import TimeSelect from '../TimeSelect/TimeSelect'
 
 const AddTaskDialog = ({ isOpen, handleClose }) => {
-  const queryClient = useQueryClient()
   const nodeRef = useRef()
 
   const {
@@ -24,19 +24,7 @@ const AddTaskDialog = ({ isOpen, handleClose }) => {
     formState: { errors, isSubmitting },
   } = useForm()
 
-  const { mutate } = useMutation({
-    mutationKey: 'addTask',
-    mutationFn: async (taskTitle) => {
-      const response = await fetch('http://localhost:3000/ITENS', {
-        method: 'POST',
-        body: JSON.stringify(taskTitle),
-      })
-      if (!response.ok) {
-        throw new Error('Erro ao adicionar tarefa.')
-      }
-      return response.json()
-    },
-  })
+  const { mutate } = useAddTasks()
 
   const handleSaveClick = async (data) => {
     const taskTitle = {
@@ -49,9 +37,6 @@ const AddTaskDialog = ({ isOpen, handleClose }) => {
 
     mutate(taskTitle, {
       onSuccess: () => {
-        queryClient.setQueriesData('ITENS', (currentTask) => {
-          return [...currentTask, taskTitle]
-        })
         reset({
           title: '',
           time: 'morning',

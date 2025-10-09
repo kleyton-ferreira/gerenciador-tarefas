@@ -1,4 +1,4 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { toast } from 'sonner'
 
@@ -9,6 +9,7 @@ import {
   SunIcon,
   Trashcon,
 } from '../../assets/icons'
+import { useGetTasks } from '../../hooks/data/use-get-tasks'
 import AddTaskDialog from '../AddTaskDialog/AddTaskDialog'
 import Button from '../Button/Button'
 import TaskItem from '../TaskItem/TaskItem'
@@ -18,16 +19,7 @@ const Task = () => {
   const [addDialogModal, setAddDialogModal] = useState(false)
   const queryClient = useQueryClient()
 
-  const { data: tasks } = useQuery({
-    queryKey: 'ITENS',
-    queryFn: async () => {
-      const response = await fetch('http://localhost:3000/ITENS', {
-        method: 'GET',
-      })
-      const taskItems = await response.json()
-      return taskItems
-    },
-  })
+  const { data: tasks } = useGetTasks()
 
   const morningTasks = tasks?.filter((items) => items.time === 'morning')
   const afterTasks = tasks?.filter((items) => items.time === 'afternoon')
