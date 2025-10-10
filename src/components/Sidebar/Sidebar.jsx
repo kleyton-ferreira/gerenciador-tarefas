@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { CheksIcon, HomeIcon } from '../../assets/icons'
 import SidebarButton from '../SidebarButton/SidebarButton'
 
@@ -18,10 +16,10 @@ const Sidebar = () => {
         </p>
       </div>
       <div className="space-y-2 p-2">
-        <SidebarButton variant="unselected">
+        <SidebarButton to="/cu" variant="unselected">
           <HomeIcon className="relative -top-0.5" /> Início
         </SidebarButton>
-        <SidebarButton variant="selected">
+        <SidebarButton to="/Task" variant="selected">
           <CheksIcon /> Minhas Tarefas
         </SidebarButton>
       </div>

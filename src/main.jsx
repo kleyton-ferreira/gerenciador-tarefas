@@ -6,21 +6,27 @@ import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { Toaster } from 'sonner'
 
-import App from './App.jsx'
-import TaskDetailsPage from './pages/TaskDetailsPage/TaskDetailsPage.jsx'
+import Home from './pages/Home/Home'
+import TaskDetailsPage from './pages/TaskDetailsPage/TaskDetailsPage'
+import TaskPages from './pages/TaskPages/TaskPages'
+
+const queryClient = new QueryClient()
 
 const router = createBrowserRouter([
   {
-    path: '/',
-    element: <App />,
+    path: '/cu',
+    element: <Home />,
+  },
+
+  {
+    path: '/Task',
+    element: <TaskPages />,
   },
   {
     path: '/task/:taskId',
     element: <TaskDetailsPage />,
   },
 ])
-
-const queryClient = new QueryClient()
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
