@@ -16,7 +16,7 @@ const Sidebar = () => {
         </p>
       </div>
       <div className="space-y-2 p-2">
-        <SidebarButton to="/cu" variant="unselected">
+        <SidebarButton to="/Home" variant="unselected">
           <HomeIcon className="relative -top-0.5" /> Início
         </SidebarButton>
         <SidebarButton to="/Task" variant="selected">
