@@ -14,10 +14,9 @@ const queryClient = new QueryClient()
 
 const router = createBrowserRouter([
   {
-    path: '/Home',
+    path: '/',
     element: <Home />,
   },
-
   {
     path: '/Task',
     element: <TaskPages />,
