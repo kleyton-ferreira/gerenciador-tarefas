@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import axios from 'axios'
 
+import { taskQueryKeys } from '../../keys/queries'
 import { api } from '../../lib/axios'
 
 export const useUpdateTasks = (taskId) => {
@@ -14,7 +14,7 @@ export const useUpdateTasks = (taskId) => {
         description: newTask.description.trim(),
       })
 
-      queryClient.setQueryData('ITENS', (oldTasks) => {
+      queryClient.setQueryData(taskQueryKeys.getAll(), (oldTasks) => {
         return oldTasks.map((oldUpdate) => {
           if (oldUpdate.id === taskId) {
             return updateTask
@@ -22,6 +22,8 @@ export const useUpdateTasks = (taskId) => {
           return oldUpdate
         })
       })
+      // AQUI ESTOU ATUALIZANDO O CACHE DE UMA TAREFA ESPECIFICA!
+      queryClient.setQueryData([taskQueryKeys.getOne(taskId), updateTask])
     },
   })
 }

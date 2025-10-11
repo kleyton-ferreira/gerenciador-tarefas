@@ -1,11 +1,3 @@
 {
-  "ITENS": [
-    {
-      "id": "60a8d0c3-80a7-4d39-b1f0-fbc77170b3b2",
-      "time": "afternoon",
-      "title": "Teste okss",
-      "description": "Javascript",
-      "status": "not-started"
-    }
-  ]
+  "ITENS": []
 }
