@@ -8,7 +8,6 @@ export const useTaskGet = ({ taskId, onSucess }) => {
     queryKey: taskQueryKeys.getOne(taskId),
     queryFn: async () => {
       const { data: task } = await api.get(`/ITENS/${taskId}`)
-
       onSucess(task)
       return task
     },
