@@ -16,29 +16,6 @@ const Task = () => {
   const afterTasks = tasks?.filter((items) => items.time === 'afternoon')
   const eveningTasks = tasks?.filter((items) => items.time === 'evening')
 
-  // FUNÇAO DE MUDAR OS CHACKBOX
-  const handleTaskCheckboxClick = (taskId) => {
-    const newTask = tasks.map((item) => {
-      if (item.id !== taskId) {
-        return item
-      }
-      if (item.status === 'not-started') {
-        toast.success('Tarefa iniciada com sucesso!')
-        return { ...item, status: 'in-progress' }
-      }
-      if (item.status === 'in-progress') {
-        toast.success('Tarefa concluida com sucesso!')
-        return { ...item, status: 'done' }
-      }
-      if (item.status === 'done') {
-        toast.success('Tarefa reiniciada com sucesso!')
-        return { ...item, status: 'not-started' }
-      }
-      return item
-    })
-    queryClient.setQueryData(taskQueryKeys.getAll(), newTask)
-  }
-
   return (
     <div className="w-full px-8 py-16">
       <Header subtitle="Minhas Tarefas" title="Minhas Tarefas" />
@@ -51,11 +28,7 @@ const Task = () => {
             </p>
           )}
           {morningTasks?.map((task) => (
-            <TaskItem
-              key={task.id}
-              taskItens={task}
-              handTaskleClick={handleTaskCheckboxClick}
-            />
+            <TaskItem key={task.id} taskItens={task} />
           ))}
         </div>
         <div className="my-8 space-y-3">
@@ -66,11 +39,7 @@ const Task = () => {
             </p>
           )}
           {afterTasks?.map((task) => (
-            <TaskItem
-              key={task.id}
-              taskItens={task}
-              handTaskleClick={handleTaskCheckboxClick}
-            />
+            <TaskItem key={task.id} taskItens={task} />
           ))}
         </div>
         <div className="space-y-3">
@@ -81,11 +50,7 @@ const Task = () => {
             </p>
           )}
           {eveningTasks?.map((task) => (
-            <TaskItem
-              key={task.id}
-              taskItens={task}
-              handTaskleClick={handleTaskCheckboxClick}
-            />
+            <TaskItem key={task.id} taskItens={task} />
           ))}
         </div>
       </div>
