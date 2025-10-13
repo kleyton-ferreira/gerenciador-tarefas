@@ -1,24 +1,15 @@
 import { useQueryClient } from '@tanstack/react-query'
-import { useState } from 'react'
 import { toast } from 'sonner'
 
-import {
-  AddIcon,
-  CloudIcon,
-  MoonIcon,
-  SunIcon,
-  Trashcon,
-} from '../../assets/icons'
+import { CloudIcon, MoonIcon, SunIcon } from '../../assets/icons'
 import { useGetTasks } from '../../hooks/data/use-get-tasks'
-import AddTaskDialog from '../AddTaskDialog/AddTaskDialog'
-import Button from '../Button/Button'
+import { taskQueryKeys } from '../../keys/queries'
+import Header from '../Header/Header'
 import TaskItem from '../TaskItem/TaskItem'
 import TaskSeparator from '../TaskSeparator/TaskSeparator'
 
 const Task = () => {
-  const [addDialogModal, setAddDialogModal] = useState(false)
   const queryClient = useQueryClient()
-
   const { data: tasks } = useGetTasks()
 
   const morningTasks = tasks?.filter((items) => items.time === 'morning')
@@ -45,37 +36,12 @@ const Task = () => {
       }
       return item
     })
-    queryClient.setQueryData('ITENS', newTask)
+    queryClient.setQueryData(taskQueryKeys.getAll(), newTask)
   }
-
-  // FUNÇAO DE CRIAR TAREFAS
 
   return (
     <div className="w-full px-8 py-16">
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-[14px] font-semibold text-brand-primary">
-            Minhas Tarefas
-          </h2>
-          <h3 className="text-[24px] font-semibold text-brand-dark-blue">
-            Minhas Tarefas
-          </h3>
-        </div>
-        <div className="flex items-center gap-6">
-          <Button variant="secondary">
-            Limpar tarefas <Trashcon />
-          </Button>
-          <Button variant="primary" onClick={() => setAddDialogModal(true)}>
-            <AddTaskDialog isOpen={addDialogModal} />
-            <AddIcon /> Nova tarefa
-          </Button>
-
-          <AddTaskDialog
-            isOpen={addDialogModal}
-            handleClose={() => setAddDialogModal(false)}
-          />
-        </div>
-      </div>
+      <Header subtitle="Minhas Tarefas" title="Minhas Tarefas" />
       <div className="mt-6 rounded-[10px] bg-brand-white p-6">
         <div className="space-y-3">
           <TaskSeparator title="Manhã" icon={<SunIcon />} />
