@@ -1,25 +1,11 @@
 {
   "ITENS": [
     {
-      "id": "756ca097-c26c-42e2-8060-047f10fe9ea7",
+      "id": "0ce174c9-a064-486f-a8d9-95de0e939f49",
       "time": "morning",
-      "title": "Teste ( 22 )",
+      "title": "aa",
       "description": "Javascript",
-      "status": "done"
-    },
-    {
-      "id": "88a5dc6f-5594-4101-93e4-af740c280a08",
-      "time": "morning",
-      "title": "aaa ( 1 )",
-      "description": "aaa",
-      "status": "not-started"
-    },
-    {
-      "id": "a5636828-22b1-4872-b726-4fcf05cda0e7",
-      "time": "afternoon",
-      "title": "Teste ( 23445 )",
-      "description": "Javascript",
-      "status": "done"
+      "status": "in-progress"
     }
   ]
 }

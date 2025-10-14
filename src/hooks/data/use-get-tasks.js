@@ -12,3 +12,5 @@ export const useGetTasks = () => {
     },
   })
 }
+
+// ESSA E UMA REQUISIÇAO PRA EXIBIR AS TAREFAS NA TELA DO USUARIO!

@@ -20,3 +20,5 @@ export const useDeleteTasks = (taskItens) => {
     },
   })
 }
+
+// ESSA REQUISIÇAO E PRA DELETAR TAREFAS!

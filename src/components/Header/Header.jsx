@@ -6,6 +6,7 @@ import Button from '../Button/Button'
 
 const Header = ({ subtitle, title }) => {
   const [addDialogModal, setAddDialogModal] = useState(false)
+
   return (
     <div className="flex items-center justify-between">
       <div>
@@ -17,9 +18,6 @@ const Header = ({ subtitle, title }) => {
         </h3>
       </div>
       <div className="flex items-center gap-6">
-        <Button variant="secondary">
-          Limpar tarefas <Trashcon />
-        </Button>
         <Button variant="primary" onClick={() => setAddDialogModal(true)}>
           <AddTaskDialog isOpen={addDialogModal} />
           <AddIcon /> Nova tarefa

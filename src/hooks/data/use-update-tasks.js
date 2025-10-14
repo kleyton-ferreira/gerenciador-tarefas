@@ -15,7 +15,6 @@ export const useUpdateTasks = (taskId) => {
         time: data?.time,
         status: data?.status,
       })
-
       queryClient.setQueryData(taskQueryKeys.getAll(), (oldTasks) => {
         return oldTasks.map((oldUpdate) => {
           if (oldUpdate.id === taskId) {
@@ -29,3 +28,5 @@ export const useUpdateTasks = (taskId) => {
     },
   })
 }
+
+// ESA E UMA REQUISIÇAO QUE ATUALIZA UM DADO QUE JA EXISTE NO SERVIDOR!

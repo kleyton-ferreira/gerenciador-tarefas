@@ -1,48 +1,37 @@
-import {
-  CheksIcon,
-  GlassWaterIcon,
-  LoaderIcon,
-  Task2Icon,
-} from '../../assets/icons/index'
-import DashboardCards from '../../components/DashboardCards/DashboardCards'
+import DashBoardCardsItens from '../../components/DashBoardCardsItens/DashBoardCardsItens'
 import Header from '../../components/Header/Header'
 import Sidebar from '../../components/Sidebar/Sidebar'
+import TaskItem from '../../components/TaskItem/TaskItem'
 import { useGetTasks } from '../../hooks/data/use-get-tasks'
 
 const Home = () => {
   const { data: tasks } = useGetTasks()
-
-  const inProgressTasks = tasks?.filter(
-    (task) => task.status === 'in-progress'
-  ).length
-  const completedTasks = tasks?.filter((task) => task.status === 'done').length
-
   return (
     <div className="flex">
       <Sidebar />
       <div className="w-full px-8 py-16">
         <Header subtitle="Dashboard" title="Dashboard" />
-        <div className="grid grid-cols-4 gap-9">
-          <DashboardCards
-            icon={<Task2Icon />}
-            numberText={tasks?.length}
-            secundaryText="Tarefas disponíveis"
-          />
-          <DashboardCards
-            icon={<CheksIcon />}
-            numberText={completedTasks}
-            secundaryText="Tarefas concluídas"
-          />
-          <DashboardCards
-            icon={<LoaderIcon />}
-            numberText={inProgressTasks}
-            secundaryText="Tarefas em andamento"
-          />
-          <DashboardCards
-            icon={<GlassWaterIcon />}
-            numberText="40%"
-            secundaryText="Água"
-          />
+        <DashBoardCardsItens />
+        <div className="grid gap-3">
+          <div className="mt-6 overflow-hidden rounded-[10px] bg-brand-white p-6">
+            <h3 className="text-xl font-extrabold text-brand-dark-blue">
+              Tarefas
+            </h3>
+            <p className="text-sm text-brand-text-gray">
+              Resumo das tarefas disponíveis
+            </p>
+            <div className="space-y-4">
+              {tasks?.map((task) => (
+                <TaskItem key={task.id} taskItens={task} />
+              ))}
+            </div>
+          </div>
+          <div className="rounded-[10px] bg-brand-white p-8 text-center">
+            <p className="text-sm text-brand-text-gray">
+              Passo a passo, Tarefa a tarefa, você transforma o seu dia em
+              conquistas!
+            </p>
+          </div>
         </div>
       </div>
     </div>

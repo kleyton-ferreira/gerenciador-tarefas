@@ -13,3 +13,5 @@ export const useTaskGet = ({ taskId, onSucess }) => {
     },
   })
 }
+
+// ESSA E UMA REQUISIÇAO PRA PEGAR O QUE TEM NA API!

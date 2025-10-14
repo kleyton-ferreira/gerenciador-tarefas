@@ -1,5 +1,3 @@
-import React from 'react'
-
 const DashboardCards = ({ icon, numberText, secundaryText }) => {
   return (
     <>

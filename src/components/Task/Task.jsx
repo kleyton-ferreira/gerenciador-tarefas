@@ -1,15 +1,10 @@
-import { useQueryClient } from '@tanstack/react-query'
-import { toast } from 'sonner'
-
 import { CloudIcon, MoonIcon, SunIcon } from '../../assets/icons'
 import { useGetTasks } from '../../hooks/data/use-get-tasks'
-import { taskQueryKeys } from '../../keys/queries'
 import Header from '../Header/Header'
 import TaskItem from '../TaskItem/TaskItem'
 import TaskSeparator from '../TaskSeparator/TaskSeparator'
 
 const Task = () => {
-  const queryClient = useQueryClient()
   const { data: tasks } = useGetTasks()
 
   const morningTasks = tasks?.filter((items) => items.time === 'morning')
